@@ -6,7 +6,7 @@ import {
   LIKE,
 } from "../constants/actionTypes";
 
-export default (posts = [], action) => {
+const myPosts = (posts = [], action) => {
   // remember posts is a state from our funciton (state, action)=>{...}
   switch (action.type) {
     case UPDATE:
@@ -24,3 +24,5 @@ export default (posts = [], action) => {
       return posts;
   }
 };
+
+export default myPosts;

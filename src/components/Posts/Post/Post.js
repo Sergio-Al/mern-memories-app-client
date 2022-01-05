@@ -6,7 +6,6 @@ import {
   CardMedia,
   Button,
   Typography,
-  CardActionArea,
 } from "@material-ui/core";
 import ThumbUpAltIcon from "@material-ui/icons/ThumbUpAlt";
 import DeleteIcon from "@material-ui/icons/Delete";
