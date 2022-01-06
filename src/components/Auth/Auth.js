@@ -15,24 +15,44 @@ import { useNavigate } from "react-router-dom";
 import Icon from "./Icon";
 import useStyles from "./styles";
 import Input from "./Input";
+import { signin, signup } from "../../actions/auth";
+
+const initialState = {
+  firstName: "",
+  lastName: "",
+  email: "",
+  password: "",
+  confirmPassword: "",
+};
 
 export const Auth = () => {
   const classes = useStyles();
   const [showPassword, setShowPassword] = useState(false);
   const [isSignup, setIsSignup] = useState(false);
+  const [formData, setFormData] = useState(initialState);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const handleShowPassword = () =>
     setShowPassword((prevShowPassword) => !prevShowPassword);
 
-  const handleSubmit = () => {};
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log(formData);
+    if (isSignup) {
+      dispatch(signup(formData, navigate));
+    } else {
+      dispatch(signin(formData, navigate));
+    }
+  };
 
-  const handleChange = () => {};
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
 
   const switchMode = () => {
     setIsSignup((prevIsSignup) => !prevIsSignup);
-    handleShowPassword(false);
+    setShowPassword(false);
   };
 
   const googleSuccess = async (res) => {
@@ -71,8 +91,8 @@ export const Auth = () => {
                 />
 
                 <Input
-                  name="lastname"
-                  label="lastName name"
+                  name="lastName"
+                  label="Last Name"
                   handleChange={handleChange}
                   half
                 />
@@ -85,7 +105,7 @@ export const Auth = () => {
               type="email"
             />
             <Input
-              name="Password"
+              name="password"
               label="Password"
               handleChange={handleChange}
               type={showPassword ? "text" : "password"}
@@ -110,7 +130,7 @@ export const Auth = () => {
             {isSignup ? "Sign Up" : "Sign In"}
           </Button>
           <GoogleLogin
-            clientId="your CLIENTID"
+            clientId={process.env.REACT_APP_GOOGLEID_CLIENT}
             render={(renderProps) => (
               <Button
                 className={classes.googleButton}
