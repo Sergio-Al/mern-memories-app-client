@@ -130,7 +130,7 @@ export const Auth = () => {
             {isSignup ? "Sign Up" : "Sign In"}
           </Button>
           <GoogleLogin
-            clientId={process.env.REACT_APP_GOOGLEID_CLIENT}
+            clientId={process.env.REACT_APP_GOOGLEID_CLIENT.toString()}
             render={(renderProps) => (
               <Button
                 className={classes.googleButton}
