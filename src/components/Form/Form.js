@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 import useStyles from "./styles";
 import { createPost, updatePost } from "../../actions/posts";
+import { useNavigate } from "react-router-dom";
 
 // Get the current id of the post
 
@@ -15,11 +16,14 @@ const Form = ({ currentId, setCurrentId }) => {
     tags: "",
     selectedFile: "",
   });
-  const post = useSelector((state) =>
-    currentId ? state.posts.find((post) => post._id === currentId) : null
-  );
+  const post = useSelector((state) => {
+    return currentId
+      ? state.posts.posts.find((post) => post._id === currentId)
+      : null;
+  });
   const classes = useStyles();
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const user = JSON.parse(localStorage.getItem("profile"));
 
   useEffect(() => {
@@ -34,14 +38,14 @@ const Form = ({ currentId, setCurrentId }) => {
         updatePost(currentId, { ...postData, name: user?.result?.name })
       );
     } else {
-      dispatch(createPost({ ...postData, name: user?.result?.name }));
+      dispatch(createPost({ ...postData, name: user?.result?.name }, navigate));
     }
 
     clear();
   };
 
   const clear = () => {
-    setCurrentId(null);
+    setCurrentId(0);
     setPostData({
       title: "",
       message: "",
@@ -49,7 +53,7 @@ const Form = ({ currentId, setCurrentId }) => {
       selectedFile: "",
     });
   };
-  
+
   if (!user?.result?.name) {
     return (
       <Paper className={classes.paper}>
@@ -61,7 +65,7 @@ const Form = ({ currentId, setCurrentId }) => {
   }
 
   return (
-    <Paper className={classes.paper}>
+    <Paper className={classes.paper} elevation={6}>
       <form
         autoComplete="off"
         noValidate

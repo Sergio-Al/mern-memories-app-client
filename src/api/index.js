@@ -1,6 +1,7 @@
 import axios from "axios";
 
 // const API = axios.create({ baseURL: "http://localhost:5000" }); // for local
+
 const API = axios.create({
   baseURL: "https://sergio-al-memories-project.herokuapp.com",
 }); // for producction
@@ -16,7 +17,14 @@ API.interceptors.request.use((req) => {
 });
 
 const postsURL = "/posts";
-export const fetchPosts = () => API.get(postsURL);
+export const fetchPost = (id) => API.get(`${postsURL}/${id}`);
+export const fetchPosts = (page) => API.get(`${postsURL}?page=${page}`);
+export const fetchPostsBySearch = (searchQuery) =>
+  API.get(
+    `${postsURL}/search?searchQuery=${searchQuery.search || "none"}&tags=${
+      searchQuery.tags
+    }`
+  );
 export const createPost = (newPost) => API.post(postsURL, newPost);
 export const updatePost = (id, updatedPost) =>
   API.patch(`${postsURL}/${id}`, updatedPost);
