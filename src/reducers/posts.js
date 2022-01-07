@@ -8,6 +8,7 @@ import {
   LIKE,
   START_LOADING,
   END_LOADING,
+  COMMENT,
 } from "../constants/actionTypes";
 
 const myPosts = (state = { isLoading: true, posts: [] }, action) => {
@@ -34,6 +35,17 @@ const myPosts = (state = { isLoading: true, posts: [] }, action) => {
       return {
         ...state,
         posts: state.posts.filter((post) => post._id !== action.payload),
+      };
+    case COMMENT:
+      return {
+        ...state,
+        posts: state.posts.map((post) => {
+          if (post._id === action.payload._id) {
+            return action.payload;
+          }
+
+          return post;
+        }),
       };
     case UPDATE:
     case LIKE:
