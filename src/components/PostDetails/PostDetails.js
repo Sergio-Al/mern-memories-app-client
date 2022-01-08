@@ -88,7 +88,10 @@ const PostDetails = () => {
         </div>
       </div>
       {recommendedPosts.length && (
-        <div className={classes.section}>
+        <div
+          className={classes.section}
+          style={{ overflowX: "scroll", overflowY: "hidden" }}
+        >
           <Typography gutterBottom variant="h5">
             You might also like:
           </Typography>

@@ -1,13 +1,11 @@
 import React, { useState, useRef } from "react";
-import { Typography, TextField, Button } from "@material-ui/core";
+import { Typography, TextField, Button, Grid } from "@material-ui/core";
 
 import { useDispatch } from "react-redux";
 
-import useStyles from "./styles";
 import { commentPost } from "../../actions/posts";
 
 const CommentSection = ({ post }) => {
-  const classes = useStyles();
   const [comments, setComments] = useState(post?.comments);
   const [comment, setComment] = useState("");
   const user = JSON.parse(localStorage.getItem("profile"));
@@ -27,8 +25,13 @@ const CommentSection = ({ post }) => {
 
   return (
     <div>
-      <div className={classes.commentsOuterContainer}>
-        <div className={classes.commentsInnerContainer}>
+      <Grid container spacing={2}>
+        <Grid
+          item
+          xs={12}
+          lg={4}
+          style={{ height: "200px", overflowY: "auto" }}
+        >
           <Typography gutterBottom variant="h6">
             Comments
           </Typography>
@@ -39,34 +42,33 @@ const CommentSection = ({ post }) => {
             </Typography>
           ))}
           <div ref={commentsRef} />
-        </div>
-        {user?.result?.name && (
-          <div style={{ width: "70%" }}>
-            <Typography gutterBottom variant="h6">
-              Write a Comment
-            </Typography>
-            <TextField
-              fullWidth
-              rows={4}
-              variant="outlined"
-              label="Comment"
-              multiline
-              value={comment}
-              onChange={(e) => setComment(e.target.value)}
-            />
-            <Button
-              style={{ marginTop: "10px" }}
-              fullWidth
-              disabled={!comment}
-              variant="contained"
-              color="primary"
-              onClick={handleClick}
-            >
-              Comment
-            </Button>
-          </div>
-        )}
-      </div>
+        </Grid>
+        <Grid item xs={12} lg={8}>
+          <Typography gutterBottom variant="h6">
+            Write a Comment
+          </Typography>
+          <TextField
+            fullWidth
+            rows={4}
+            variant="outlined"
+            label={!user?.result?.name ? "Login to write" : "Comment"}
+            disabled={comment || !user?.result?.name}
+            multiline
+            value={comment}
+            onChange={(e) => setComment(e.target.value)}
+          />
+          <Button
+            style={{ marginTop: "10px" }}
+            fullWidth
+            disabled={!comment || !user?.result?.name}
+            variant="contained"
+            color="primary"
+            onClick={handleClick}
+          >
+            {!user?.result?.name ? "login to comment" : "Comment"}
+          </Button>
+        </Grid>
+      </Grid>
     </div>
   );
 };
