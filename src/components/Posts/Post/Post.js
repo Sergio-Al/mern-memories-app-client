@@ -100,7 +100,7 @@ const Post = ({ post, setCurrentId }) => {
               style={{ color: "white" }}
               size="small"
               onClick={(e) => {
-                e.stopPropagation();
+                e.stopPropagation(); // THIS IS IMPORTANT!!!!!!!
                 setCurrentId(post._id.toString());
               }}
             >
